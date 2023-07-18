@@ -1,0 +1,19 @@
+project:
+  name: taskcat-example
+tests:
+  pipeline-test:
+    template: ./lab5server.yml
+    regions:
+    - us-east-1
+    - us-west-2
+    parameters:
+      PipelineName: 'lab3-pipeline'
+      S3Bucket: 'lab3pipelinetesting/'
+      SourceS3Key: 'wordpress-single-instance.zip'
+      TemplateFileName: 'wordpress-single-instance.yaml'
+      TestStackName: 'Test-MyWordPressSite'
+      TestStackConfig: 'test-stack-configuration.json'
+      ProdStackName: 'Prod-MyWordPressSite'
+      ProdStackConfig: 'prod-stack-configuration.json'
+      ChangeSetName: 'UpdatePreview-MyWordPressSite'
+      Email: '<enter your email address>'

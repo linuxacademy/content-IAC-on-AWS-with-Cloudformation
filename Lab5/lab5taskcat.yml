@@ -1,0 +1,8 @@
+project:
+  name: taskcat-example
+tests:
+  pipeline-test:
+    template: ./lab5server.yml
+    regions:
+    - us-east-1
+   
