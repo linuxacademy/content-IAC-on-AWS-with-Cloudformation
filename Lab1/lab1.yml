@@ -3,8 +3,9 @@ Description: Creates VPC, networking components, and an EC2 Instance
 Parameters:
   InstanceTypeParameter:
     Type: String
-    Default: t3.small
+    Default: t3.micro
     AllowedValues:
+      - t3.micro
       - t3.small
       - t3.medium
       - t3.large
