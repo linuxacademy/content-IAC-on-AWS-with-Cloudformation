@@ -1,1 +1,49 @@
-....
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Example template
+Parameters:
+  Environment:
+    Type: String
+    Default: 'dev'
+Conditions:
+  IsDev: !Equals [ !Ref Environment, 'dev' ]
+Resources:
+  Function:
+    Type: AWS::Lambda::Function
+    Condition: IsDev
+    Properties:
+      Role: !Ref FunctionRole # Role property requires an ARN, not the resource ID
+      Handler: index.handler
+      Code:
+        S3Bucket: my-bucket
+        S3Key: function.zip
+      MemorySize: 3000 # Invalid memory size
+      Runtime: nodejs12.x
+      Timeout: 5
+      TracingConfig:
+        Mode: !If [IsTracingActive, 'true', 'false'] # Undefined condition IsTracingActive
+  FunctionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - lambda.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Policies:
+        - PolicyName: all
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: '*'
+                Resource: '*'
+Outputs:
+  FunctionArn: # Export without matching condition to resource
+    Description: Lambda ARN
+    Value: !GetAtt Function.Arn
+    Export:
+      Name: !Sub ${Environment}-lambda-arn
