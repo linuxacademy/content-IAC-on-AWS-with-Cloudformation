@@ -1,5 +1,6 @@
 project:
   name: taskcat-example
+  package_lambda: false
 tests:
   pipeline-test:
     template: ./lab5server.json
